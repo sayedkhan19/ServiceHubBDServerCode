@@ -68,6 +68,29 @@ async function run() {
     res.send(result);
 });
 
+const { ObjectId } = require('mongodb');
+
+// PUT route to update service by ID
+app.put('/service/:id', async (req, res) => {
+  const id = req.params.id;
+  const updatedService = req.body;
+
+  const filter = { _id: new ObjectId(id) };
+  const updateDoc = {
+    $set: {
+      serviceName: updatedService.serviceName,
+      description: updatedService.description,
+      serviceArea: updatedService.serviceArea,
+      price: updatedService.price,
+      imageUrl: updatedService.imageUrl,
+      // keep other fields if needed or add validation
+    },
+  };
+
+  const result = await serviceCollention.updateOne(filter, updateDoc);
+  res.send(result);
+});
+
 
 
     await client.connect();
