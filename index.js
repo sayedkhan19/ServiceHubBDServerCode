@@ -25,6 +25,9 @@ const client = new MongoClient(uri, {
   }
 });
 
+
+
+
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
@@ -47,7 +50,17 @@ async function run() {
         const result = await serviceCollention.find(query).toArray();
         res.send(result);
         
-    })
+    });
+
+    // DELETE a service
+ app.delete('/service/:id', async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id) };
+   const result = await serviceCollention.deleteOne(query);
+    res.send(result);
+});
+
+
 
     await client.connect();
     // Send a ping to confirm a successful connection
