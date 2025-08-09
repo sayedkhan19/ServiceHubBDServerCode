@@ -51,7 +51,7 @@ const client = new MongoClient(uri, {
 // Main API logic
 async function run() {
   try {
-    // await client.connect();
+    await client.connect();   // it will comment before deploy
     const serviceCollection = client.db("serviceDB").collection("service");
 
     // Test DB Connection
