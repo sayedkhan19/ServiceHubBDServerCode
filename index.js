@@ -51,13 +51,24 @@ const client = new MongoClient(uri, {
 // Main API logic
 async function run() {
   try {
-    await client.connect();   // it will comment before deploy
+    // await client.connect();   // it will comment before deploy
     const serviceCollection = client.db("serviceDB").collection("service");
     const bookingsCollection = client.db("serviceDB").collection("servicePost");
 
     // Test DB Connection
     // await client.db("admin").command({ ping: 1 });
     // console.log("Connected to MongoDB!");
+
+
+    // Add this in your backend Express server
+
+app.get('/bookings/count', async (req, res) => {
+  const email = req.query.email;
+  if (!email) return res.status(400).json({ message: 'Email required' });
+
+  const count = await bookingsCollection.countDocuments({ userEmail: email });
+  res.json({ count });
+});
 
    
 app.get('/bookings/all', async (req, res) => {
