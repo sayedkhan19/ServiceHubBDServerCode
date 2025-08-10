@@ -60,17 +60,12 @@ async function run() {
     // console.log("Connected to MongoDB!");
 
    
-// GET: Get all bookings or optionally filter by email (e.g., admin view or user view)
-app.get('/bookings/all', verifyFireBaseToken, async (req, res) => {
-  // Optional: filter by user email query parameter
-  const email = req.query.email;
-  let query = {};
-  if (email) {
-    query = { userEmail: email };
-  }
-  const bookings = await bookingsCollection.find(query).toArray();
+app.get('/bookings/all', async (req, res) => {
+  // No filter, return all bookings for all users
+  const bookings = await bookingsCollection.find({}).toArray();
   res.send(bookings);
 });
+
 
 // PUT: Update status of a booking by ID
 app.put('/bookings/:id/status', verifyFireBaseToken, async (req, res) => {
